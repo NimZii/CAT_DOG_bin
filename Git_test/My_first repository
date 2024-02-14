@@ -1,0 +1,42 @@
+import os 
+# This block splitts the dataset to traing and test datasets and copy
+# each group to a different directory
+
+# For Cats
+
+# Defining paths
+original_dataset_dir = 'Sample_dataset/CATS'
+train_dir = 'Sample_splitted/train/CATS'
+test_dir = 'Sample_splitted/test/CATS'
+train_split = 0.8  # 80% for training, 20% for testing
+
+# Create directories for training and test data
+os.makedirs(train_dir, exist_ok=True)
+os.makedirs(test_dir, exist_ok=True)
+
+# List all image files
+image_files = os.listdir(original_dataset_dir)
+
+# Shuffle the list of image files
+random.shuffle(image_files)
+
+# Calculate the number of training samples
+num_train_samples = int(len(image_files) * train_split)
+
+# Split the dataset
+train_files = image_files[:num_train_samples]
+test_files = image_files[num_train_samples:]
+
+# Move training images to train_dir
+for file in train_files:
+    src = os.path.join(original_dataset_dir, file)
+    dst = os.path.join(train_dir, file)
+    shutil.copyfile(src, dst)
+
+# Move test images to test_dir
+for file in test_files:
+    src = os.path.join(original_dataset_dir, file)
+    dst = os.path.join(test_dir, file)
+    shutil.copyfile(src, dst)
+
+print("CATS Dataset split completed successfully.")
